@@ -39,8 +39,7 @@ const buildMessage = (sale: any) => (
 	.setFooter('Sold on OpenSea', 'https://files.readme.io/566c72b-opensea-logomark-full-colored.png')
 )
 
-async function main() {
-  const channel = await discordSetup();
+async function main(channel: TextChannel) {
   const seconds = process.env.SECONDS ? parseInt(process.env.SECONDS) : 60;
   const hoursAgo = (Math.round(new Date().getTime() / 1000) - (seconds)); // in the last hour, run hourly?
 
@@ -63,7 +62,7 @@ async function main() {
       method: 'GET',
       headers: {
         'X-API-KEY':process.env.OS_API_KEY
-      }
+      },
     }).then((resp) => resp.json());
 
   return await Promise.all(
@@ -74,12 +73,24 @@ async function main() {
   );
 }
 
-main()
-  .then((res) =>{
-    if (!res.length) console.log("No recent sales")
-    process.exit(0)
+
+function go(channel: TextChannel) {
+  main(channel)
+  .then(async res =>{
+    if (!res.length) console.log("No recent sales, pausing for 60 seconds");
+    await new Promise(resolve => setTimeout(resolve, 60000));
+    console.log("Trying again...");
+    go(channel);
   })
   .catch(error => {
     console.error(error);
     process.exit(1);
   });
+}
+
+async function start(){
+  const channel = await discordSetup();
+  go(channel);
+}
+
+start();
