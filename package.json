@@ -1,7 +1,6 @@
 {
   "license": "MIT",
   "scripts": {
-    "start": "ts-node ./checkSales.ts",
     "heroku-postdeploy": "ts-node ./checkSales.ts"
   },
   "dependencies": {
