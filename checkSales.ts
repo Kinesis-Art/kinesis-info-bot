@@ -122,6 +122,8 @@ const buildMessage = (id: any) => (
 	.setURL("https://kinesis.art/api/generator/" + id)
   .setImage("https://kinesis.art/api/image/" + id)
   .setThumbnail("https://kinesis.art/api/generator/" + id)
+  .addField("OpenSea", "https://opensea.io/assets/0xeb113c5d09bfc3a7b27a75da4432fb3484f90c6a/" + id)
+  .setURL("https://opensea.io/assets/0xeb113c5d09bfc3a7b27a75da4432fb3484f90c6a/" + id)
   .addField("View", "https://kinesis.art/api/generator/" + id)
   .setURL("https://kinesis.art/api/generator/" + id)
 )
