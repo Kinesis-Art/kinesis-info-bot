@@ -21,7 +21,7 @@ const discordSetup = async (): Promise<TextChannel> => {
   })
 }
 
-const buildMessage = (id: any) => (
+const buildAtlanta = (id: any) => (
 
   new Discord.MessageEmbed()
 	.setColor('#0099ff')
@@ -30,12 +30,23 @@ const buildMessage = (id: any) => (
   .setImage("https://kinesis.art/api/image/" + id)
   .setThumbnail("https://kinesis.art/api/generator/" + id)
   .addField("OpenSea", "https://opensea.io/assets/0xeb113c5d09bfc3a7b27a75da4432fb3484f90c6a/" + id)
-  .setURL("https://opensea.io/assets/0xeb113c5d09bfc3a7b27a75da4432fb3484f90c6a/" + id)
   .addField("View", "https://kinesis.art/api/generator/" + id)
-  .setURL("https://kinesis.art/api/generator/" + id)
   .addField("Export GIF", "https://kinesis.art/api/gif/" + id)
-  .setURL("https://kinesis.art/api/gif/" + id)
 )
+
+const buildKafka = (id: any) => (
+
+  new Discord.MessageEmbed()
+	.setColor('#0099ff')
+	.setTitle("Kafka #" + id)
+	.setURL("https://kinesis.art/api/generator/" + 1000000 + id)
+  .setImage("https://kinesis.art/api/image/" + 1000000 + id)
+  .setThumbnail("https://kinesis.art/api/generator/" + 1000000 + id)
+  .addField("OpenSea", "https://opensea.io/assets/0xeb113c5d09bfc3a7b27a75da4432fb3484f90c6a/" + 1000000 + id)
+  .addField("View", "https://kinesis.art/api/generator/" + 1000000 + id)
+  .addField("Export GIF", "https://kinesis.art/api/gif/"  + 1000000 + id)
+)
+
 
 
 async function start(){
@@ -51,8 +62,14 @@ discordBot.on('ready', () => {
 discordBot.on('message', async message => {
   if (message.content.startsWith('!atlanta')) {
     const tokens = message.content.split(" ");
-    if(tokens.length != 2 ) message.reply("Invalid command: please follow format '!atlanta id'");
-    else if (isNaN(parseInt(tokens[1])) || parseInt(tokens[1]) >= 3600 || parseInt(tokens[1]) < 0) message.reply("Invalid ID: please follow format '!atlanta id'");
-    else { message.reply(buildMessage(parseInt(tokens[1]))); }
+    if(tokens.length != 2 ) message.reply("Invalid command: please follow format '!project id'");
+    else if (isNaN(parseInt(tokens[1])) || parseInt(tokens[1]) >= 3600 || parseInt(tokens[1]) < 0) message.reply("Invalid ID: please follow format '!project id'");
+    else { message.reply(buildAtlanta(parseInt(tokens[1]))); }
+  }
+  else if (message.content.startsWith('!kafka')) {
+    const tokens = message.content.split(" ");
+    if(tokens.length != 2 ) message.reply("Invalid command: please follow format '!project id'");
+    else if (isNaN(parseInt(tokens[1])) || parseInt(tokens[1]) >= 2800 || parseInt(tokens[1]) < 0) message.reply("Invalid ID: please follow format '!project id'");
+    else { message.reply(buildKafka(parseInt(tokens[1]))); }
   }
 });
